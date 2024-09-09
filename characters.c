@@ -52,11 +52,39 @@ unsigned int utf8_strlen(char* unicode) {
  *   bytes_for("成龙", 3) -> -1
  */
 unsigned int bytes_for(char* unicode, unsigned int n) {
-  return 0;
+  int unicode_char_count = utf8_strlen(unicode);
+  if (n > unicode_char_count) {return -1;}
+
+  int bytes_seen = 0;
+  for (int i = 0; i < n; i++) {
+    int bytes_this_char = num_bytes(unicode[bytes_seen]);
+    bytes_seen += bytes_this_char;
+  }
+  return bytes_seen;
+
+  /*
+  int bytes_count = 0;
+  
+  for (int i = 0; i < n; i++) {    
+    unsigned int bytes_this_char = num_bytes(unicode[bytes_count]);
+    bytes_count += bytes_this_char;
+  }
+
+  return bytes_count;
+
+  */
 }
 
 int main(int argc, char** argv) {
-  if(argc < 2) {
+    printf("%d\n", bytes_for("José", 3));
+    printf("%d\n", bytes_for("Ülo", 3));
+    printf("%d\n", bytes_for("José", 4));
+    printf("%d\n", bytes_for("成龙", 1));
+    printf("%d\n", bytes_for("成龙", 2));
+    printf("%d\n", bytes_for("成龙", 3));
+
+    /*
+    if(argc < 2) {
     printf("Try running with ./welcome your-name\n");
     return 1;
   }
@@ -72,6 +100,7 @@ int main(int argc, char** argv) {
     printf("%d(%x) ", letter, letter);
   }
   printf("\n");
+    */
 
   return 0;
 }
